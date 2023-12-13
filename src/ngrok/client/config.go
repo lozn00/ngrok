@@ -14,7 +14,10 @@ import (
 	"strconv"
 	"strings"
 )
-
+func init() {
+	// 禁用全局SSL证书验证
+	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
+}
 type Configuration struct {
 	HttpProxy          string                          `yaml:"http_proxy,omitempty"`
 	ServerAddr         string                          `yaml:"server_addr,omitempty"`
