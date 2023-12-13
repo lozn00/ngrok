@@ -254,6 +254,8 @@ func DumpRequestOut(req *http.Request, body bool) ([]byte, error) {
 	}()
 
 	t := &http.Transport{
+
+            TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
 		Dial: func(net, addr string) (net.Conn, error) {
 			return &dumpConn{io.MultiWriter(&buf, pw), dr}, nil
 		},
