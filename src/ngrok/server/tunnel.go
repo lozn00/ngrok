@@ -223,6 +223,16 @@ func (t *Tunnel) listenTcp(listener *net.TCPListener) {
 
 		// accept public connections
 		tcpConn, err := listener.AcceptTCP()
+		//add 
+		err1 := tcpConn.SetKeepAlive(true)
+        if err1 != nil {
+            fmt.Println(err1.Error())
+        }
+        err2 := tcpConn.SetKeepAlivePeriod(time.Minute)
+        if err2 != nil {
+            fmt.Println(err2.Error())
+        }
+		//add end
 
 		if err != nil {
 			// not an error, we're shutting down this tunnel

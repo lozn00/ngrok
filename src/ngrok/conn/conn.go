@@ -67,6 +67,18 @@ func Listen(addr, typ string, tlsCfg *tls.Config) (l *Listener, err error) {
 	go func() {
 		for {
 			rawConn, err := listener.Accept()
+			//add
+			if rawConn, ok := rawConn.(*net.TCPConn); ok {
+                err := rawConn.SetKeepAlive(true)
+                if err != nil {
+                    fmt.Println(err.Error())
+                }
+                err = rawConn.SetKeepAlivePeriod(time.Minute)
+                if err != nil {
+                    fmt.Println(err.Error())
+                }
+            }
+			//add end
 			if err != nil {
 				log.Error("Failed to accept new TCP connection of type %s: %v", typ, err)
 				continue
